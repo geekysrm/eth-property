@@ -57,6 +57,11 @@ contract EthProperty {
         _;
     }
 
+    function isUserRegistered(address _userAddress) 
+    public view returns ( bool ) {
+        return userRegisteredMapping[_userAddress];
+    }
+
     function register(string memory _name, string memory _email, string memory _phoneNumber) 
     public {
         require(!userRegisteredMapping[msg.sender]);
