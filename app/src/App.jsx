@@ -2,8 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import EthProperty from "./artifacts/contracts/EthProperty.sol/EthProperty.json";
 import { ethers } from "ethers";
-
-const ethPropertyAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+import { ethPropertyAddress } from "./constants";
 
 function App() {
   const [greeting, setGreetingValue] = useState("");
