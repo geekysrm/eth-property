@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   chakra,
   Flex,
@@ -7,14 +7,14 @@ import {
   useColorModeValue,
   Box,
   Image,
-} from '@chakra-ui/react';
-import { useViewportScroll } from 'framer-motion';
-import { FaHeart } from 'react-icons/fa';
-import { AiFillGithub } from 'react-icons/ai';
-import { Link as RouterLink } from 'react-router-dom';
+} from "@chakra-ui/react";
+import { useViewportScroll } from "framer-motion";
+// import { FaHeart } from 'react-icons/fa';
+// import { AiFillGithub } from 'react-icons/ai';
+import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
-  const bg = useColorModeValue('white', 'gray.800');
+  const bg = useColorModeValue("white", "gray.800");
   const ref = React.useRef();
   const [y, setY] = React.useState(0);
   const { height = 0 } = ref.current ? ref.current.getBoundingClientRect() : {};
@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const SponsorButton = (
     <Box
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: "none", md: "flex" }}
       alignItems="center"
       as="a"
       aria-label="Vote for us"
@@ -43,18 +43,18 @@ const Navbar = () => {
       outline="0"
       transition="all 0.3s"
       _hover={{
-        bg: 'gray.100',
-        borderColor: 'gray.300',
+        bg: "gray.100",
+        borderColor: "gray.300",
       }}
       _active={{
-        borderColor: 'gray.200',
+        borderColor: "gray.200",
       }}
       _focus={{
-        boxShadow: 'outline',
+        boxShadow: "outline",
       }}
       ml={5}
     >
-      <Icon as={FaHeart} w="4" h="4" color="red.500" mr="2" />
+      {/* <Icon as={FaHeart} w="4" h="4" color="red.500" mr="2" /> */}
       <Box as="strong" lineHeight="inherit" fontWeight="semibold">
         Vote Us!
       </Box>
@@ -65,7 +65,7 @@ const Navbar = () => {
     <Box pos="relative">
       <chakra.header
         ref={ref}
-        shadow={y > height ? 'sm' : undefined}
+        shadow={y > height ? "sm" : undefined}
         transition="box-shadow 0.2s"
         bg={bg}
         w="full"

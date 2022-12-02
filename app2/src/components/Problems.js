@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   chakra,
   Box,
@@ -6,12 +6,12 @@ import {
   useColorModeValue,
   Icon,
   Stack,
-} from '@chakra-ui/react';
-import { BiError, RiFileDamageLine } from 'react-icons/all';
-import { SearchIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+// import { BiError, RiFileDamageLine } from 'react-icons/all';
+import { SearchIcon } from "@chakra-ui/icons";
 
 export default function Problems() {
-  const Feature = props => {
+  const Feature = (props) => {
     return (
       <Flex>
         <Flex shrink={0}>
@@ -21,7 +21,7 @@ export default function Problems() {
             h={12}
             w={12}
             rounded="md"
-            bg={useColorModeValue('brand.500')}
+            bg={useColorModeValue("brand.500")}
             color="white"
           >
             {props.icon}
@@ -32,11 +32,11 @@ export default function Problems() {
             fontSize="lg"
             fontWeight="medium"
             lineHeight="6"
-            color={useColorModeValue('gray.900')}
+            color={useColorModeValue("gray.900")}
           >
             {props.title}
           </chakra.dt>
-          <chakra.dd mt={2} color={useColorModeValue('gray.500', 'gray.400')}>
+          <chakra.dd mt={2} color={useColorModeValue("gray.500", "gray.400")}>
             {props.children}
           </chakra.dd>
         </Box>
@@ -45,16 +45,16 @@ export default function Problems() {
   };
   return (
     <Flex py={10} w="auto" justifyContent="center" alignItems="center">
-      <Box py={12} bg={useColorModeValue('white', 'gray.800')} rounded="xl">
+      <Box py={12} bg={useColorModeValue("white", "gray.800")} rounded="xl">
         <Box maxW="7xl" mx="auto" px={{ base: 4, lg: 8 }}>
-          <Box textAlign={{ lg: 'center' }}>
+          <Box textAlign={{ lg: "center" }}>
             <chakra.p
               mt={2}
-              fontSize={{ base: '3xl', sm: '4xl' }}
+              fontSize={{ base: "3xl", sm: "4xl" }}
               lineHeight="8"
               fontWeight="extrabold"
               letterSpacing="tight"
-              color={useColorModeValue('gray.900')}
+              color={useColorModeValue("gray.900")}
             >
               Challenges in current property management system
             </chakra.p>
@@ -63,8 +63,8 @@ export default function Problems() {
           <Box mt={10}>
             <Stack
               spacing={{ base: 10, md: 0 }}
-              display={{ md: 'grid' }}
-              gridTemplateColumns={{ md: 'repeat(2,1fr)' }}
+              display={{ md: "grid" }}
+              gridTemplateColumns={{ md: "repeat(2,1fr)" }}
               gridColumnGap={{ md: 8 }}
               gridRowGap={{ md: 10 }}
             >
@@ -92,31 +92,31 @@ export default function Problems() {
                 property owner is at risk of losing his or her property.
               </Feature>
 
-              <Feature
+              {/* <Feature
                 title="Human error"
                 icon={<Icon w={6} h={6} as={BiError}></Icon>}
               >
                 During the property registration procedure, there is a lot of
                 human involvement. Eventually, this results in a huge number of
                 human errors.
-              </Feature>
+              </Feature> */}
 
-              <Feature
+              {/* <Feature
                 title="Wear and tear of documents"
                 icon={<Icon w={6} h={6} as={RiFileDamageLine}></Icon>}
               >
                 Printed property papers, as we all know, do not endure more than
                 a decade if not properly kept. Most traditional papers are
                 unrecognisable as a result of this wear and tear.
-              </Feature>
+              </Feature> */}
 
               <Feature
                 title="Traceability"
                 icon={<SearchIcon w={5} h={5}></SearchIcon>}
               >
-                You can only find out who the current owner
-                is by looking at paper records. It prevents us from discovering
-                who else owned the property previously.
+                You can only find out who the current owner is by looking at
+                paper records. It prevents us from discovering who else owned
+                the property previously.
               </Feature>
             </Stack>
           </Box>
