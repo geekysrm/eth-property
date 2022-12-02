@@ -42,7 +42,7 @@ const Hero = () => {
             display="block"
             color={useColorModeValue('white', 'gray.500')}
           >
-            Start by connecting your Solana wallet
+            Start by registering with your Ethereum wallet
           </chakra.span>
         </chakra.h2>
         <Stack
@@ -68,9 +68,9 @@ const Hero = () => {
                 bg: useColorModeValue('purple.700', 'purple.600'),
               }}
               as={Link}
-              to="/connect"
+              to="/register"
             >
-              Connect now
+              Register
             </chakra.a>
           </Box>
         </Stack>
