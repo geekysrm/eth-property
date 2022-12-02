@@ -4,6 +4,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Landing from './pages/Landing';
+import Register from './pages/Register';
 import Navbar from './components/Navbar';
 
 const theme = extendTheme({
@@ -20,6 +21,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Landing} />
+          <Route exact path="/register" component={Register} />
         </Switch>
       </Router>
     </ChakraProvider>
