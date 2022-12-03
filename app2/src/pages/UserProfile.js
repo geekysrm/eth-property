@@ -22,6 +22,8 @@ import isUserAdmin from "../ethereum/isUserAdmin";
 import fetchUserDetails from "../ethereum/fetchUserDetails";
 import fetchPropertyDetails from "../ethereum/fetchPropertyDetails";
 import fetchBuyRequestDetails from "../ethereum/fetchBuyRequestDetails";
+import approveBuyOrder from "../ethereum/approveBuyOrder";
+import rejectBuyOrder from "../ethereum/rejectBuyOrder";
 
 import CustomMap from '../components/CustomMap';
 
@@ -102,6 +104,8 @@ export default function UserProfile() {
             const requestDetails = await Promise.all(requestIds.map(async id => {
               const requestDetailsRes = await fetchBuyRequestDetails(id);
 
+              console.log(requestDetailsRes);
+
               const propertyRequestDetailsRes = await fetchPropertyDetails(requestDetailsRes[0]);
               const buyerDetailsRes = await fetchUserDetails(requestDetailsRes[1]);
 
@@ -110,13 +114,18 @@ export default function UserProfile() {
                 propertyId: requestDetailsRes[0],
                 propertyName: propertyRequestDetailsRes[0],
                 buyerAddress: requestDetailsRes[1],
-                buyerName: buyerDetailsRes[0]
+                buyerName: buyerDetailsRes[0],
+                status: requestDetailsRes[3]
               };
             }));
 
             console.log(requestDetails);
 
-            setRequests(requestDetails);
+            const filteredRequestDetails = requestDetails.filter(req => req.status === "REQUESTED");
+
+            console.log(filteredRequestDetails);
+
+            setRequests(filteredRequestDetails);
           }
         }
       }
@@ -152,83 +161,21 @@ export default function UserProfile() {
     history.push(`/property/${propertyId}`);
   }
 
-  // async function approveBuyRequest(buyRequestId) {
-  //   const program = await getProgram(wallet);
-  //   const pair = getPair();
+  async function approveBuyRequest(buyRequestId) {
+    await approveBuyOrder(buyRequestId);
 
-  //   await program.rpc.approve(buyRequestId, {
-  //     accounts: {
-  //       baseAccount: pair.publicKey,
-  //     },
-  //   });
+    console.log("done");
 
-  //   const account = await program.account.baseAccount.fetch(pair.publicKey);
+    window.location.reload();
+  }
 
-  //   const currAccount = account.userList.filter(
-  //     user => user.address === address
-  //   );
-  //   setUser({
-  //     ...currAccount[0],
-  //     isAdmin: account.authority.toString() === address,
-  //   });
+  async function rejectBuyRequest(buyRequestId) {
+    await rejectBuyOrder(buyRequestId);
 
-  //   const properties = currAccount[0].propertyList.map(property => {
-  //     return account.propertyList.find(p => {
-  //       return p.id === property;
-  //     });
-  //   });
-  //   setProperties(properties);
+    console.log("done");
 
-  //   const yourRequests = currAccount[0].buyOrders
-  //     .map(order => {
-  //       return account.buyOrderList.find(o => {
-  //         return o.orderId === order;
-  //       });
-  //     })
-  //     .filter(order => order.status === 'REQUESTED');
-  //   setRequests(yourRequests);
-
-  //   setMainAccount(account);
-  // }
-
-  // async function rejectBuyRequest(buyRequestId) {
-  //   const program = await getProgram(wallet);
-  //   const pair = getPair();
-
-  //   await program.rpc.reject(buyRequestId, {
-  //     accounts: {
-  //       baseAccount: pair.publicKey,
-  //     },
-  //   });
-
-  //   const account = await program.account.baseAccount.fetch(pair.publicKey);
-
-  //   const currAccount = account.userList.filter(
-  //     user => user.address === address
-  //   );
-  //   setUser({
-  //     ...currAccount[0],
-  //     isAdmin: account.authority.toString() === address,
-  //   });
-
-  //   const properties = currAccount[0].propertyList.map(property => {
-  //     return account.propertyList.find(p => {
-  //       return p.id === property;
-  //     });
-  //   });
-  //   setProperties(properties);
-
-  //   const yourRequests = currAccount[0].buyOrders
-  //     .map(order => {
-  //       return account.buyOrderList.find(o => {
-  //         return o.orderId === order;
-  //       });
-  //     })
-  //     .filter(order => order.status === 'REQUESTED');
-  //   setRequests(yourRequests);
-
-  //   setMainAccount(account);
-  // }
+    window.location.reload();
+  }
 
   return (
     <Flex
@@ -353,7 +300,7 @@ export default function UserProfile() {
                       colorScheme="green"
                       width="100%"
                       onClick={() => {
-                        // approveBuyRequest(req.orderId);
+                        approveBuyRequest(req.orderId);
                       }}
                     >
                       Approve
@@ -365,7 +312,7 @@ export default function UserProfile() {
                       colorScheme="red"
                       width="100%"
                       onClick={() => {
-                        // rejectBuyRequest(req.orderId);
+                        rejectBuyRequest(req.orderId);
                       }}
                     >
                       Reject
