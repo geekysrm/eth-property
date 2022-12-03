@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink as Link, useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { NavLink as Link, useParams, useHistory } from "react-router-dom";
 import {
   Flex,
   Box,
@@ -14,8 +14,8 @@ import {
   AccordionButton,
   AccordionPanel,
   Icon,
-} from '@chakra-ui/react';
-import { PhoneIcon, EmailIcon, AddIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { PhoneIcon, EmailIcon, AddIcon } from "@chakra-ui/icons";
 
 import isUserRegistered from "../ethereum/isUserRegistered";
 import isUserAdmin from "../ethereum/isUserAdmin";
@@ -25,7 +25,7 @@ import fetchBuyRequestDetails from "../ethereum/fetchBuyRequestDetails";
 import approveBuyOrder from "../ethereum/approveBuyOrder";
 import rejectBuyOrder from "../ethereum/rejectBuyOrder";
 
-import CustomMap from '../components/CustomMap';
+import CustomMap from "../components/CustomMap";
 
 import UserIcon from "../components/icons/UserIcon";
 import HomeIcon from "../components/icons/HomeIcon";
@@ -46,24 +46,24 @@ export default function UserProfile() {
 
   useEffect(() => {
     (async () => {
-
-      if (typeof window.ethereum !== "undefined") { 
+      if (typeof window.ethereum !== "undefined") {
         const { ethereum } = window;
-        const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
 
         console.log(accounts);
 
-        if(accounts !== 0){
+        if (accounts !== 0) {
           const userAdd = accounts[0];
           console.log(userAdd);
 
           const response = await isUserRegistered(userAdd);
           console.log(response);
 
-          if(!response) {
+          if (!response) {
             history.push(`/`);
           } else {
-
             console.log(userAddress);
 
             const userDetailsRes = await fetchUserDetails(userAddress);
@@ -76,26 +76,28 @@ export default function UserProfile() {
               name: userDetailsRes[0],
               email: userDetailsRes[1],
               phoneNumber: userDetailsRes[2],
-              isAdmin: adminRes
+              isAdmin: adminRes,
             };
 
             setUser(userDetails);
 
             const propertyIds = userDetailsRes[3];
 
-            const propertyDetails = await Promise.all(propertyIds.map(async id => {
-              const propertyDetailsRes = await fetchPropertyDetails(id);
-
-              return {
-                id: id,
-                name: propertyDetailsRes[0],
-                dimensions: propertyDetailsRes[2],
-                pincode: propertyDetailsRes[3],
-                propertyAddress: propertyDetailsRes[1],
-                lat: propertyDetailsRes[4],
-                lng: propertyDetailsRes[5]
-              };
-            }));
+            const propertyDetails = await Promise.all(
+              propertyIds.map(async (id) => {
+                const propertyDetailsRes = await fetchPropertyDetails(id);
+                console.log(propertyDetailsRes);
+                return {
+                  id: id,
+                  name: propertyDetailsRes[0],
+                  dimensions: propertyDetailsRes[2],
+                  pincode: propertyDetailsRes[3],
+                  propertyAddress: propertyDetailsRes[1],
+                  lat: propertyDetailsRes[4],
+                  lng: propertyDetailsRes[5],
+                };
+              })
+            );
 
             console.log(propertyDetails);
 
@@ -103,27 +105,35 @@ export default function UserProfile() {
 
             const requestIds = userDetailsRes[4];
 
-            const requestDetails = await Promise.all(requestIds.map(async id => {
-              const requestDetailsRes = await fetchBuyRequestDetails(id);
+            const requestDetails = await Promise.all(
+              requestIds.map(async (id) => {
+                const requestDetailsRes = await fetchBuyRequestDetails(id);
 
-              console.log(requestDetailsRes);
+                console.log(requestDetailsRes);
 
-              const propertyRequestDetailsRes = await fetchPropertyDetails(requestDetailsRes[0]);
-              const buyerDetailsRes = await fetchUserDetails(requestDetailsRes[1]);
+                const propertyRequestDetailsRes = await fetchPropertyDetails(
+                  requestDetailsRes[0]
+                );
+                const buyerDetailsRes = await fetchUserDetails(
+                  requestDetailsRes[1]
+                );
 
-              return {
-                orderId: id,
-                propertyId: requestDetailsRes[0],
-                propertyName: propertyRequestDetailsRes[0],
-                buyerAddress: requestDetailsRes[1],
-                buyerName: buyerDetailsRes[0],
-                status: requestDetailsRes[3]
-              };
-            }));
+                return {
+                  orderId: id,
+                  propertyId: requestDetailsRes[0],
+                  propertyName: propertyRequestDetailsRes[0],
+                  buyerAddress: requestDetailsRes[1],
+                  buyerName: buyerDetailsRes[0],
+                  status: requestDetailsRes[3],
+                };
+              })
+            );
 
             console.log(requestDetails);
 
-            const filteredRequestDetails = requestDetails.filter(req => req.status === "REQUESTED");
+            const filteredRequestDetails = requestDetails.filter(
+              (req) => req.status === "REQUESTED"
+            );
 
             console.log(filteredRequestDetails);
 
@@ -170,10 +180,16 @@ export default function UserProfile() {
 
     const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
 
-    pushNotification(requestDetailsRes[2], "You successfully sold your property!", 
-      `Property - ${requestDetailsRes[0]} was sold successfully.`);
-    pushNotification(requestDetailsRes[1], "You successfully bought a property!", 
-      `Property - ${requestDetailsRes[0]} is now owned by you.`);
+    pushNotification(
+      requestDetailsRes[2],
+      "You successfully sold your property!",
+      `Property - ${requestDetailsRes[0]} was sold successfully.`
+    );
+    pushNotification(
+      requestDetailsRes[1],
+      "You successfully bought a property!",
+      `Property - ${requestDetailsRes[0]} is now owned by you.`
+    );
 
     window.location.reload();
   }
@@ -185,10 +201,16 @@ export default function UserProfile() {
 
     const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
 
-    pushNotification(requestDetailsRes[2], "You declined the buy request!", 
-      `You declined the Buy request for Property - ${requestDetailsRes[0]}.`);
-    pushNotification(requestDetailsRes[1], "Your buy request was declined!", 
-      `Your buy request for Property - ${requestDetailsRes[0]} was declined by the owner.`);
+    pushNotification(
+      requestDetailsRes[2],
+      "You declined the buy request!",
+      `You declined the Buy request for Property - ${requestDetailsRes[0]}.`
+    );
+    pushNotification(
+      requestDetailsRes[1],
+      "Your buy request was declined!",
+      `Your buy request for Property - ${requestDetailsRes[0]} was declined by the owner.`
+    );
 
     window.location.reload();
   }
@@ -196,9 +218,9 @@ export default function UserProfile() {
   return (
     <Flex
       style={{
-        marginTop: '20px',
-        marginBottom: '40px',
-        overflowX: 'hidden',
+        marginTop: "20px",
+        marginBottom: "40px",
+        overflowX: "hidden",
       }}
     >
       <Box width="30%" p={4} m={4} my={0} borderWidth="1px" borderRadius="lg">
@@ -240,7 +262,7 @@ export default function UserProfile() {
             defaultIndex={[0]}
             onChange={onHandleAccordionChange}
           >
-            {properties.map(property => (
+            {properties.map((property) => (
               <AccordionItem>
                 <Text>
                   <AccordionButton>
@@ -254,9 +276,7 @@ export default function UserProfile() {
                   <Text fontSize="lg" display="flex" alignItems="center">
                     {`${property.propertyAddress}, ${property.pincode}`}
                   </Text>
-                  <Text fontSize="lg">
-                    {property.dimensions}
-                  </Text>
+                  <Text fontSize="lg">{property.dimensions}</Text>
                   <Button
                     size="sm"
                     variant="outline"
@@ -289,7 +309,7 @@ export default function UserProfile() {
         </Heading>
         {requests.length > 0 ? (
           <Accordion allowToggle>
-            {requests.map(req => (
+            {requests.map((req) => (
               <AccordionItem>
                 <Text>
                   <AccordionButton>
