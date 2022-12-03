@@ -25,6 +25,9 @@ import fetchBuyRequestDetails from "../ethereum/fetchBuyRequestDetails";
 
 import CustomMap from '../components/CustomMap';
 
+import UserIcon from "../components/icons/UserIcon";
+import HomeIcon from "../components/icons/HomeIcon";
+
 export default function UserProfile() {
   const history = useHistory();
   const { userAddress } = useParams();
@@ -96,7 +99,7 @@ export default function UserProfile() {
 
             const requestIds = userDetailsRes[4];
 
-            const requestDetails = requestIds.map(async id => {
+            const requestDetails = await Promise.all(requestIds.map(async id => {
               const requestDetailsRes = await fetchBuyRequestDetails(id);
 
               const propertyRequestDetailsRes = await fetchPropertyDetails(requestDetailsRes[0]);
@@ -109,7 +112,9 @@ export default function UserProfile() {
                 buyerAddress: requestDetailsRes[1],
                 buyerName: buyerDetailsRes[0]
               };
-            });
+            }));
+
+            console.log(requestDetails);
 
             setRequests(requestDetails);
           }
@@ -284,11 +289,9 @@ export default function UserProfile() {
                 </Text>
                 <AccordionPanel pb={4}>
                   <Text fontSize="lg" display="flex" alignItems="center">
-                    {/* <Icon mr="2" as={AiOutlineHome}></Icon> */}
                     {`${property.propertyAddress}, ${property.pincode}`}
                   </Text>
                   <Text fontSize="lg">
-                    {/* <Icon mr="2" as={BiArea}></Icon> */}
                     {property.dimensions}
                   </Text>
                   <Button
@@ -335,13 +338,13 @@ export default function UserProfile() {
                 </Text>
                 <AccordionPanel pb={4}>
                   <Text fontSize="xl" display="flex" alignItems="center">
-                    {/* <Icon mr="2" as={AiOutlineHome}></Icon> */}
-                    {req.propertyName}
+                    <Icon as={HomeIcon} mr={2} />
+                    <p style={{ marginLeft: "2px" }}>{req.propertyName}</p>
                   </Text>
-                  <Text fontSize="xl">
-                    {/* <Icon mr="2" as={FaUserTie}></Icon> */}
-                    {req.buyerName}
-                  </Text>
+                  <Flex fontSize="xl" alignItems="center">
+                    <Icon as={UserIcon} mr={2} />
+                    <p style={{ marginLeft: "2px" }}>{req.buyerName}</p>
+                  </Flex>
                   <Box width="100%" display="flex">
                     <Button
                       mt="5"

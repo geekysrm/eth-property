@@ -25,6 +25,7 @@ import isUserRegistered from "../ethereum/isUserRegistered";
 import fetchPropertyDetails from "../ethereum/fetchPropertyDetails";
 import fetchUserDetails from "../ethereum/fetchUserDetails";
 import transferProperty from "../ethereum/transferProperty";
+import createBuyOrder from "../ethereum/createBuyOrder";
 
 import AreaIcon from "../components/icons/AreaIcon";
 import UserIcon from "../components/icons/UserIcon";
@@ -121,21 +122,13 @@ export default function PropertyProfile() {
     window.location.reload();
   }
 
-  // async function buyRequest() {
-  //   const program = await getProgram(wallet);
-  //   const pair = getPair();
-  //   await program.rpc.createbuyorder(
-  //     uuid(),
-  //     wallet.publicKey.toString(),
-  //     property.currentOwner,
-  //     id,
-  //     {
-  //       accounts: {
-  //         baseAccount: pair.publicKey,
-  //       },
-  //     }
-  //   );
-  // }
+  async function buyRequest() {
+    await createBuyOrder(uuid(), id);
+
+    console.log("done");
+
+    history.push(`/user/${userAddress}`);
+  }
 
   return (
     <Flex
@@ -189,7 +182,7 @@ export default function PropertyProfile() {
               leftIcon={<AddIcon />}
               colorScheme="purple"
               variant="outline"
-              // onClick={buyRequest}
+              onClick={buyRequest}
             >
               Buy Request
             </Button>
