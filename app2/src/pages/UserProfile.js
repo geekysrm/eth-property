@@ -80,6 +80,7 @@ export default function UserProfile() {
               const propertyDetailsRes = await fetchPropertyDetails(id);
 
               return {
+                id: id,
                 name: propertyDetailsRes[0],
                 dimensions: propertyDetailsRes[2],
                 pincode: propertyDetailsRes[3],
