@@ -5,7 +5,6 @@ const PK = "2727fcca9acae56f153e1d21e14aac18b22b09b224740e5b066df04049457b4b"; /
 const Pkey = `0x${PK}`;
 const signer = new ethers.Wallet(Pkey);
 const channelAddress = "eip155:5:0xa715E144881F613d13dC8bff16C1fdfcF0e86aAD";
-// const receiverAddress = "eip155:5:0xAaEa5f9a8C02ba5A6b192267cCf48e42547E951f";
 
 const pushNotification = async (receiverAddress, subject, body) => {
   console.log("executing pushNotification");

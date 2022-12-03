@@ -12,6 +12,7 @@ import Marketplace from "./pages/Marketplace";
 import TestingPush from "./pages/TestingPush";
 
 import Navbar from "./components/Navbar";
+import Transactions from "./pages/Transactions";
 
 const theme = extendTheme({
   config: {
@@ -28,6 +29,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/transactions" component={Transactions} />
           <Route exact path="/push" component={TestingPush} />
           <Route exact path="/user/:userAddress" component={UserProfile} />
           <Route exact path="/add/property" component={AddProperty} />
