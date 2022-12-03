@@ -14,6 +14,7 @@ import {
   Input,
   FormControl,
   FormLabel,
+  Link as UILink
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from "@chakra-ui/icons";
 import { v4 as uuid } from "uuid";
@@ -94,6 +95,7 @@ export default function PropertyProfile() {
               currentOwnerName: ownerDetailsRes[0],
               pastOwnerAddresses: pastOwnerAddresses,
               pastOwnerNames: pastOwnerNames,
+              propertyFileUrl: propertyDetailsRes[8]
             };
 
             console.log(propertyDetails);
@@ -161,6 +163,10 @@ export default function PropertyProfile() {
           >
             <Icon as={UserIcon} mr={2} />
             <p style={{ marginLeft: "2px" }}>{property.currentOwnerName}</p>
+          </Flex>
+          <Flex alignItems="center" fontSize="xl">
+            <Icon as={AreaIcon} mr={4} />
+            <UILink color="purple.500" href={property.propertyFileUrl} > Property File stored on IPFS </UILink>
           </Flex>
         </Stack>
         {userAddress && userAddress === property.currentOwnerAddress ? (

@@ -27,6 +27,7 @@ contract EthProperty {
         string lng;
         address currentOwner;
         address[] pastOwners;
+        string propertyFileUrl;
     }
 
     struct BuyOrder {
@@ -101,7 +102,7 @@ contract EthProperty {
 
     function fetchProperty(string memory _id) 
     public registeredUsers(msg.sender) view returns (
-        string memory, string memory, string memory, string memory, string memory, string memory, address, address[] memory
+        string memory, string memory, string memory, string memory, string memory, string memory, address, address[] memory, string memory
     ) {
         Property memory property = idToPropertyMapping[_id];
 
@@ -113,7 +114,8 @@ contract EthProperty {
             property.lat,
             property.lng,
             property.currentOwner,
-            property.pastOwners
+            property.pastOwners,
+            property.propertyFileUrl
         );
     }
 
@@ -139,7 +141,7 @@ contract EthProperty {
     }
 
     function addProperty(string memory _id, string memory _name, string memory _dimensions, 
-        string memory _pincode, string memory _propertyAddress, string memory _lat, string memory _lng) 
+        string memory _pincode, string memory _propertyAddress, string memory _lat, string memory _lng, string memory _propertyFileUrl) 
     public registeredUsers(msg.sender) {
 
         Property memory newProperty = Property({
@@ -151,7 +153,8 @@ contract EthProperty {
             lat: _lat,
             lng: _lng,
             currentOwner: msg.sender,
-            pastOwners: new address[](0)
+            pastOwners: new address[](0),
+            propertyFileUrl: _propertyFileUrl
         });
 
         idToPropertyMapping[_id] = newProperty;

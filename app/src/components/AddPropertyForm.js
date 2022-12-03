@@ -12,11 +12,15 @@ import {
   FormLabel,
   Input,
   Button,
+  Link,
+  Spinner
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import addProperty from "../ethereum/addProperty";
+
+import uploadFile from "../ipfsFileUpload";
 
 export default function AddPropertyForm() {
   const [propertyName, setPropertyName] = useState('');
@@ -26,6 +30,9 @@ export default function AddPropertyForm() {
   const [propertyDimensions2, setPropertyDimensions2] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
+  const [fileIPFSUrl, setFileIPFSUrl] = useState(null);
 
   const history = useHistory();
 
@@ -53,7 +60,8 @@ export default function AddPropertyForm() {
             dimensions,
             zip,
             latitude,
-            longitude
+            longitude,
+            fileIPFSUrl
           );
 
           console.log("done");
@@ -208,7 +216,44 @@ export default function AddPropertyForm() {
                       required
                     />
                   </FormControl>
+
                   {/* To add dropdown for popular land measuring units */}
+
+                  <FormControl as={GridItem} colSpan={[6, 6]}>
+                      <FormLabel
+                        htmlFor="dimensions"
+                        fontSize="sm"
+                        fontWeight="md"
+                        color={useColorModeValue('gray.700', 'gray.50')}
+                      >
+                        Property File
+                      </FormLabel>
+
+                      {fileIPFSUrl ? 
+                        <Link color="purple.500" href={fileIPFSUrl} > Property File stored on IPFS </Link> 
+                        : 
+                        fileUploadLoading ? <Spinner /> : 
+                        <Input
+                        type="file"
+                        name="file"
+                        id="file"
+                        mt={1}
+                        focusBorderColor="brand.400"
+                        shadow="sm"
+                        size="sm"
+                        rounded="md"
+                        onChange={async e => {
+
+                          setFileUploadLoading(true);
+
+                          const fileUrl = await uploadFile(e);
+
+                          setFileUploadLoading(false);
+                          setFileIPFSUrl(fileUrl);
+                        }}
+                        required
+                      />}
+                  </FormControl>
 
                   <FormControl display="flex" as={GridItem} colSpan={[6, 6]}>
                     <Box mr="5" w="40%">
@@ -260,7 +305,7 @@ export default function AddPropertyForm() {
                   </FormControl>
 
                   <Button
-                    gridRowStart={6}
+                    gridRowStart={7}
                     gridColumnStart={6}
                     type="submit"
                     colorScheme="purple"
