@@ -46,7 +46,7 @@ const uploadFile = async (e) => {
       Note: Hash in response is CID.
     */
 
-    const fileUrl = `https://ipfs.io/ipfs/${output.data.Hash}`;
+    const fileUrl = `https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`;
 
     console.log(fileUrl);
 
