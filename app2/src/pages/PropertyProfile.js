@@ -135,23 +135,24 @@ export default function PropertyProfile() {
         </Heading>
         <Text color="gray.500">{id}</Text>
         <Stack spacing={3} mt={6}>
-          <Text fontSize="xl">
+          <Flex alignItems="center" fontSize="xl">
             <Icon as={HomeIcon} mr={2} />
-            {property.address}
-          </Text>
-          <Text fontSize="xl">
-            <Icon as={UserIcon} mr={2} />
-            {property.dimensions}
-          </Text>
-          <Text
+            <p style={{ marginLeft: "2px" }}>{property.address}</p>
+          </Flex>
+          <Flex alignItems="center" fontSize="xl">
+            <Icon as={AreaIcon} mr={4} />
+            <p style={{ marginLeft: "2px" }}>{property.dimensions}</p>
+          </Flex>
+          <Flex
             color="purple.300"
             fontSize="xl"
             as={Link}
+            alignItems="center"
             to={`/user/${property.currentOwnerAddress}`}
           >
             <Icon as={UserIcon} mr={2} />
-            {property.currentOwnerName}
-          </Text>
+            <p style={{ marginLeft: "2px" }}>{property.currentOwnerName}</p>
+          </Flex>
         </Stack>
         {userAddress && userAddress !== property.currentOwnerAddress && (
           <Box mt={6} width="100%">
