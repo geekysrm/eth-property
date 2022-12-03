@@ -156,6 +156,9 @@ contract EthProperty {
 
         idToPropertyMapping[_id] = newProperty;
         propertyIds.push(_id);
+
+        User storage user = addressToUserMapping[msg.sender];
+        user.propertyList.push(_id);
     }
 
     function transferProperty(string memory _id, address _newOwner) 

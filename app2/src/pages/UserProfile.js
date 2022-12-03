@@ -76,18 +76,20 @@ export default function UserProfile() {
 
             const propertyIds = userDetailsRes[3];
 
-            const propertyDetails = propertyIds.map(async id => {
+            const propertyDetails = await Promise.all(propertyIds.map(async id => {
               const propertyDetailsRes = await fetchPropertyDetails(id);
 
               return {
                 name: propertyDetailsRes[0],
-                dimensions: propertyDetailsRes[1],
-                pincode: propertyDetailsRes[2],
-                propertyAddress: propertyDetailsRes[3],
+                dimensions: propertyDetailsRes[2],
+                pincode: propertyDetailsRes[3],
+                propertyAddress: propertyDetailsRes[1],
                 lat: propertyDetailsRes[4],
                 lng: propertyDetailsRes[5]
               };
-            });
+            }));
+
+            console.log(propertyDetails);
 
             setProperties(propertyDetails);
 
@@ -282,7 +284,7 @@ export default function UserProfile() {
                 <AccordionPanel pb={4}>
                   <Text fontSize="lg" display="flex" alignItems="center">
                     {/* <Icon mr="2" as={AiOutlineHome}></Icon> */}
-                    {`${property.address}, ${property.zipCode}`}
+                    {`${property.propertyAddress}, ${property.pincode}`}
                   </Text>
                   <Text fontSize="lg">
                     {/* <Icon mr="2" as={BiArea}></Icon> */}
