@@ -28,6 +28,7 @@ const pushNotification = async (receiverAddress, subject, body) => {
       env: "staging",
     });
     console.log(apiResponse);
+    return apiResponse;
   } catch (err) {
     console.error("Error: ", err);
   }
