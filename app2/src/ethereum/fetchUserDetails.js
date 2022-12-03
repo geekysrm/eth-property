@@ -1,12 +1,12 @@
 import EthProperty from "../artifacts/contracts/EthProperty.sol/EthProperty.json";
 import { ethers } from "ethers";
-import { ethPropertyAddress } from "../constants";
+import { constants } from "../constants";
 
 const fetchUserDetails = async (userAddress) => {
     if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract(
-          ethPropertyAddress,
+          constants.ethPropertyAddress,
           EthProperty.abi,
           provider
         );
@@ -20,6 +20,4 @@ const fetchUserDetails = async (userAddress) => {
       }
 }
 
-export default {
-    fetchUserDetails
-};
+export default fetchUserDetails;
