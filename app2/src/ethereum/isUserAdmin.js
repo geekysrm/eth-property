@@ -2,7 +2,7 @@ import EthProperty from "../artifacts/contracts/EthProperty.sol/EthProperty.json
 import { ethers } from "ethers";
 import { constants } from "../constants";
 
-const fetchUserDetails = async (userAddress) => {
+const isUserAdmin = async (userAddress) => {
     if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract(
@@ -11,7 +11,7 @@ const fetchUserDetails = async (userAddress) => {
           provider
         );
         try {
-          const data = await contract.fetchUser(userAddress);
+          const data = await contract.isUserAdmin(userAddress);
           console.log("data: ", data);
           return data;
         } catch (err) {
@@ -20,4 +20,4 @@ const fetchUserDetails = async (userAddress) => {
       }
 }
 
-export default fetchUserDetails;
+export default isUserAdmin;

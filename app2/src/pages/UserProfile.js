@@ -18,7 +18,12 @@ import {
 import { PhoneIcon, EmailIcon, AddIcon } from '@chakra-ui/icons';
 
 import isUserRegistered from "../ethereum/isUserRegistered";
+import isUserAdmin from "../ethereum/isUserAdmin";
 import fetchUserDetails from "../ethereum/fetchUserDetails";
+import fetchPropertyDetails from "../ethereum/fetchPropertyDetails";
+import fetchBuyRequestDetails from "../ethereum/fetchBuyRequestDetails";
+
+import CustomMap from '../components/CustomMap';
 
 export default function UserProfile() {
   const history = useHistory();
@@ -31,7 +36,6 @@ export default function UserProfile() {
     lng: null,
   });
   const [requests, setRequests] = useState([]);
-  const [mainAccount, setMainAccount] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -59,117 +63,86 @@ export default function UserProfile() {
 
             console.log(userDetailsRes);
 
+            const adminRes = await isUserAdmin(userAddress);
+
             const userDetails = {
               name: userDetailsRes[0],
               email: userDetailsRes[1],
-              phoneNumber: userDetailsRes[2]
+              phoneNumber: userDetailsRes[2],
+              isAdmin: adminRes
             };
 
             setUser(userDetails);
+
+            const propertyIds = userDetailsRes[3];
+
+            const propertyDetails = propertyIds.map(async id => {
+              const propertyDetailsRes = await fetchPropertyDetails(id);
+
+              return {
+                name: propertyDetailsRes[0],
+                dimensions: propertyDetailsRes[1],
+                pincode: propertyDetailsRes[2],
+                propertyAddress: propertyDetailsRes[3],
+                lat: propertyDetailsRes[4],
+                lng: propertyDetailsRes[5]
+              };
+            });
+
+            setProperties(propertyDetails);
+
+            const requestIds = userDetailsRes[4];
+
+            const requestDetails = requestIds.map(async id => {
+              const requestDetailsRes = await fetchBuyRequestDetails(id);
+
+              const propertyRequestDetailsRes = await fetchPropertyDetails(requestDetailsRes[0]);
+              const buyerDetailsRes = await fetchUserDetails(requestDetailsRes[1]);
+
+              return {
+                orderId: id,
+                propertyId: requestDetailsRes[0],
+                propertyName: propertyRequestDetailsRes[0],
+                buyerAddress: requestDetailsRes[1],
+                buyerName: buyerDetailsRes[0]
+              };
+            });
+
+            setRequests(requestDetails);
           }
         }
       }
-
-      // if (wallet.connected) {
-      //   const account = await getAccount(wallet);
-      //   const walletAddress = wallet.publicKey.toString();
-      //   const currAccount = account.userList.filter(
-      //     user => user.address === walletAddress
-      //   );
-
-      //   if (currAccount.length === 0) {
-      //     history.push('/register');
-      //   } else {
-      //     const program = await getProgram(wallet);
-      //     const pair = getPair();
-
-      //     const account = await program.account.baseAccount.fetch(
-      //       pair.publicKey
-      //     );
-
-      //     const currAccount = account.userList.filter(
-      //       user => user.address === address
-      //     );
-
-      //     if (currAccount.length === 0) {
-      //       history.push('/');
-      //     }
-
-      //     setUser({
-      //       ...currAccount[0],
-      //       isAdmin: account.authority.toString() === address,
-      //     });
-
-      //     const properties = currAccount[0].propertyList.map(property => {
-      //       return account.propertyList.find(p => {
-      //         return p.id === property;
-      //       });
-      //     });
-
-      //     setProperties(properties);
-
-      //     const yourRequests = currAccount[0].buyOrders
-      //       .map(order => {
-      //         return account.buyOrderList.find(o => {
-      //           return o.orderId === order;
-      //         });
-      //       })
-      //       .filter(order => order.status === 'REQUESTED');
-
-      //     console.log(yourRequests);
-
-      //     setRequests(yourRequests);
-
-      //     setMainAccount(account);
-      //   }
-      // } else {
-      //   history.push('/connect');
-      // }
     })();
   }, []);
 
-  // function renderAdminBadge() {
-  //   if (user.isAdmin) {
-  //     return (
-  //       <div>
-  //         <Badge colorScheme="purple">ADMIN</Badge>
-  //       </div>
-  //     );
-  //   }
-  // }
+  function renderAdminBadge() {
+    if (user.isAdmin) {
+      return (
+        <div>
+          <Badge colorScheme="purple">ADMIN</Badge>
+        </div>
+      );
+    }
+  }
 
-  // function onHandleAccordionChange(index) {
-  //   if (index === -1) {
-  //     setZoomCoord({
-  //       lat: null,
-  //       lng: null,
-  //     });
-  //   } else {
-  //     const { lat, lng } = properties[index];
-  //     setZoomCoord({
-  //       lat,
-  //       lng,
-  //     });
-  //   }
-  // }
+  function onHandleAccordionChange(index) {
+    if (index === -1) {
+      setZoomCoord({
+        lat: null,
+        lng: null,
+      });
+    } else {
+      const { lat, lng } = properties[index];
+      setZoomCoord({
+        lat,
+        lng,
+      });
+    }
+  }
 
-  // function showPropertyDetails(propertyId) {
-  //   history.push(`/property/${propertyId}`);
-  // }
-
-  // function getDetailsFromAddress(address) {
-  //   console.log(mainAccount);
-  //   return mainAccount.userList.find(user => {
-  //     return user.address === address;
-  //   });
-  // }
-
-  // function getPropertyDetailsFromId(id) {
-  //   console.log(mainAccount);
-  //   return mainAccount.propertyList.find(property => {
-  //     return property.id === id;
-  //   });
-  // }
+  function showPropertyDetails(propertyId) {
+    history.push(`/property/${propertyId}`);
+  }
 
   // async function approveBuyRequest(buyRequestId) {
   //   const program = await getProgram(wallet);
@@ -258,11 +231,11 @@ export default function UserProfile() {
       }}
     >
       <Box width="30%" p={4} m={4} my={0} borderWidth="1px" borderRadius="lg">
-        {/* {renderAdminBadge()} */}
+        {renderAdminBadge()}
         <Heading size="lg" fontSize="50px" mt={2}>
           {user.name}
         </Heading>
-        {/* <Text color="gray.500">{address}</Text> */}
+        <Text color="gray.500">{userAddress}</Text>
         <Stack spacing={3} mt={6}>
           <Text fontSize="xl">
             <EmailIcon mr={2} />
@@ -273,7 +246,7 @@ export default function UserProfile() {
             {user.phoneNumber}
           </Text>
         </Stack>
-        {/* {user.isAdmin && (
+        {user.isAdmin && (
           <Box mt={6} width="100%">
             <Button
               as={Link}
@@ -286,7 +259,7 @@ export default function UserProfile() {
               Add Property
             </Button>
           </Box>
-        )} */}
+        )}
         <Heading size="lg" mt="10" mb="5">
           Your Properties:
         </Heading>
@@ -294,7 +267,7 @@ export default function UserProfile() {
           <Accordion
             allowToggle
             defaultIndex={[0]}
-            // onChange={onHandleAccordionChange}
+            onChange={onHandleAccordionChange}
           >
             {properties.map(property => (
               <AccordionItem>
@@ -320,7 +293,7 @@ export default function UserProfile() {
                     variant="outline"
                     mt="5"
                     colorScheme="purple"
-                    // onClick={() => showPropertyDetails(property.id)}
+                    onClick={() => showPropertyDetails(property.id)}
                   >
                     Show Property
                   </Button>
@@ -360,13 +333,11 @@ export default function UserProfile() {
                 <AccordionPanel pb={4}>
                   <Text fontSize="xl" display="flex" alignItems="center">
                     {/* <Icon mr="2" as={AiOutlineHome}></Icon> */}
-                    {/* {mainAccount &&
-                      getPropertyDetailsFromId(req.propertyId).name} */}
+                    {req.propertyName}
                   </Text>
                   <Text fontSize="xl">
                     {/* <Icon mr="2" as={FaUserTie}></Icon> */}
-                    {/* {mainAccount &&
-                      getDetailsFromAddress(req.buyerAddress).name} */}
+                    {req.buyerName}
                   </Text>
                   <Box width="100%" display="flex">
                     <Button
@@ -403,7 +374,11 @@ export default function UserProfile() {
         )}
       </Box>
       <Box width="70%" pl={2} pr={4}>
-        
+        <CustomMap
+          properties={properties}
+          zoomLat={zoomCoord.lat}
+          zoomLng={zoomCoord.lng}
+        />
       </Box>
     </Flex>
   );
