@@ -62,7 +62,7 @@ export default function AddPropertyForm() {
           zip,
           latitude,
           longitude,
-          ""
+          fileIPFSUrl
         );
 
         console.log("done");
@@ -220,7 +220,7 @@ export default function AddPropertyForm() {
 
                   {/* To add dropdown for popular land measuring units */}
 
-                  {/* <FormControl as={GridItem} colSpan={[6, 6]}>
+                  <FormControl as={GridItem} colSpan={[6, 6]}>
                     <FormLabel
                       htmlFor="dimensions"
                       fontSize="sm"
@@ -228,9 +228,9 @@ export default function AddPropertyForm() {
                       color={useColorModeValue("gray.700", "gray.50")}
                     >
                       Property File
-                    </FormLabel> */}
+                    </FormLabel>
 
-                  {/* {fileIPFSUrl ? (
+                  {fileIPFSUrl ? (
                       <Link color="purple.500" href={fileIPFSUrl}>
                         {" "}
                         Property File stored on IPFS{" "}
@@ -258,7 +258,7 @@ export default function AddPropertyForm() {
                         required
                       />
                     )}
-                  </FormControl> */}
+                  </FormControl>
 
                   <FormControl display="flex" as={GridItem} colSpan={[6, 6]}>
                     <Box mr="5" w="40%">
