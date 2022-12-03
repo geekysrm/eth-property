@@ -1,3 +1,3 @@
 export const constants = {
-  ethPropertyAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  ethPropertyAddress: "0x0165878a594ca255338adfa4d48449f69242eb8f",
 };

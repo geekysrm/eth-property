@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   Box,
   Image,
+  Text
 } from "@chakra-ui/react";
 import { useViewportScroll } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
@@ -45,7 +46,10 @@ const Navbar = () => {
           >
             <Flex align="center">
               <Link as={RouterLink} to="/" _focus={false}>
-                <Image w="75%" src="/images/solproperty-logo.png" />
+                <Flex alignItems="center">
+                <Image width={50} src="/images/solproperty-logo.png" m={5} />
+                <Text fontSize={{ base: '3xl', sm: '4xl' }} >ETH Property</Text>
+                </Flex>
               </Link>
             </Flex>
 
