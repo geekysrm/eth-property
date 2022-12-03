@@ -8,14 +8,15 @@ const channelAddress = "eip155:5:0xa715E144881F613d13dC8bff16C1fdfcF0e86aAD";
 // const receiverAddress = "eip155:5:0xAaEa5f9a8C02ba5A6b192267cCf48e42547E951f";
 
 const pushNotification = async (receiverAddress, subject, body) => {
+  console.log("executing pushNotification");
   try {
     const apiResponse = await PushAPI.payloads.sendNotification({
       signer,
       type: 3, // target
       identityType: 2, // direct payload
       notification: {
-        title: `[SDK-TEST] notification TITLE:`,
-        body: `[sdk-test] notification BODY`,
+        title: subject,
+        body: body,
       },
       payload: {
         title: subject,
@@ -23,14 +24,14 @@ const pushNotification = async (receiverAddress, subject, body) => {
         cta: "",
         img: "",
       },
-      recipients: receiverAddress, // recipient address
+      recipients: `eip155:5:${receiverAddress}`, // recipient address
       channel: channelAddress, // your channel address
       env: "staging",
     });
     console.log(apiResponse);
     return apiResponse;
   } catch (err) {
-    console.error("Error: ", err);
+    console.error("Error:  ", err);
   }
 };
 

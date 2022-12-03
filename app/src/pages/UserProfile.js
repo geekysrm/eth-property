@@ -191,7 +191,7 @@ export default function UserProfile() {
       `Property - ${requestDetailsRes[0]} is now owned by you.`
     );
 
-    window.location.reload();
+    // window.location.reload();
   }
 
   async function rejectBuyRequest(buyRequestId) {
@@ -212,7 +212,7 @@ export default function UserProfile() {
       `Your buy request for Property - ${requestDetailsRes[0]} was declined by the owner.`
     );
 
-    window.location.reload();
+    // window.location.reload();
   }
 
   return (

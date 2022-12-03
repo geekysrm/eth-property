@@ -14,7 +14,7 @@ import {
   Input,
   FormControl,
   FormLabel,
-  Link as UILink
+  Link as UILink,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from "@chakra-ui/icons";
 import { v4 as uuid } from "uuid";
@@ -97,7 +97,7 @@ export default function PropertyProfile() {
               currentOwnerName: ownerDetailsRes[0],
               pastOwnerAddresses: pastOwnerAddresses,
               pastOwnerNames: pastOwnerNames,
-              propertyFileUrl: propertyDetailsRes[8]
+              propertyFileUrl: propertyDetailsRes[8],
             };
 
             console.log(propertyDetails);
@@ -120,15 +120,21 @@ export default function PropertyProfile() {
 
     console.log("done");
 
-    pushNotification(buyerAddress, "You just owned a property!", 
-      `Property - ${id} has been successfully transfered to you.`);
-    pushNotification(userAddress, "You just transfered your property!", 
-      `Property - ${id} has been successfully transfered.`);
+    pushNotification(
+      buyerAddress,
+      "You just owned a property!",
+      `Property - ${id} has been successfully transfered to you.`
+    );
+    pushNotification(
+      userAddress,
+      "You just transfered your property!",
+      `Property - ${id} has been successfully transfered.`
+    );
 
     setIsModalOpen(false);
     setBuyerAddress(null);
 
-    window.location.reload();
+    // window.location.reload();
   }
 
   async function buyRequest() {
@@ -136,13 +142,19 @@ export default function PropertyProfile() {
 
     console.log("done");
 
-    pushNotification(userAddress, "Buy request successfully created!", 
-      `Buy request for Property - ${id} has been successfully created`);
+    pushNotification(
+      userAddress,
+      "Buy request successfully created!",
+      `Buy request for Property - ${id} has been successfully created`
+    );
 
     const propertyDetailsRes = await fetchPropertyDetails(id);
-    
-    pushNotification(propertyDetailsRes[6], "You got a new Buy request!", 
-      `A new Buy request for your Property - ${id} has been created`);
+
+    pushNotification(
+      propertyDetailsRes[6],
+      "You got a new Buy request!",
+      `A new Buy request for your Property - ${id} has been created`
+    );
 
     history.push(`/user/${userAddress}`);
   }
@@ -181,7 +193,10 @@ export default function PropertyProfile() {
           </Flex>
           <Flex alignItems="center" fontSize="xl">
             <Icon as={AreaIcon} mr={4} />
-            <UILink color="purple.500" href={property.propertyFileUrl} > Property File stored on IPFS </UILink>
+            <UILink color="purple.500" href={property.propertyFileUrl}>
+              {" "}
+              Property File stored on IPFS{" "}
+            </UILink>
           </Flex>
         </Stack>
         {userAddress && userAddress === property.currentOwnerAddress ? (
