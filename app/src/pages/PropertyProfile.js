@@ -32,6 +32,8 @@ import AreaIcon from "../components/icons/AreaIcon";
 import UserIcon from "../components/icons/UserIcon";
 import HomeIcon from "../components/icons/HomeIcon";
 
+import pushNotification from "../pushNotification";
+
 export default function PropertyProfile() {
   const history = useHistory();
   const { id } = useParams();
@@ -118,6 +120,11 @@ export default function PropertyProfile() {
 
     console.log("done");
 
+    pushNotification(buyerAddress, "You just owned a property!", 
+      `Property - ${id} has been successfully transfered to you.`);
+    pushNotification(userAddress, "You just transfered your property!", 
+      `Property - ${id} has been successfully transfered.`);
+
     setIsModalOpen(false);
     setBuyerAddress(null);
 
@@ -128,6 +135,14 @@ export default function PropertyProfile() {
     await createBuyOrder(uuid(), id);
 
     console.log("done");
+
+    pushNotification(userAddress, "Buy request successfully created!", 
+      `Buy request for Property - ${id} has been successfully created`);
+
+    const propertyDetailsRes = await fetchPropertyDetails(id);
+    
+    pushNotification(propertyDetailsRes[6], "You got a new Buy request!", 
+      `A new Buy request for your Property - ${id} has been created`);
 
     history.push(`/user/${userAddress}`);
   }

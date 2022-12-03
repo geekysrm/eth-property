@@ -30,6 +30,8 @@ import CustomMap from '../components/CustomMap';
 import UserIcon from "../components/icons/UserIcon";
 import HomeIcon from "../components/icons/HomeIcon";
 
+import pushNotification from "../pushNotification";
+
 export default function UserProfile() {
   const history = useHistory();
   const { userAddress } = useParams();
@@ -166,6 +168,13 @@ export default function UserProfile() {
 
     console.log("done");
 
+    const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
+
+    pushNotification(requestDetailsRes[2], "You successfully sold your property!", 
+      `Property - ${requestDetailsRes[0]} was sold successfully.`);
+    pushNotification(requestDetailsRes[1], "You successfully bought a property!", 
+      `Property - ${requestDetailsRes[0]} is now owned by you.`);
+
     window.location.reload();
   }
 
@@ -173,6 +182,13 @@ export default function UserProfile() {
     await rejectBuyOrder(buyRequestId);
 
     console.log("done");
+
+    const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
+
+    pushNotification(requestDetailsRes[2], "You declined the buy request!", 
+      `You declined the Buy request for Property - ${requestDetailsRes[0]}.`);
+    pushNotification(requestDetailsRes[1], "Your buy request was declined!", 
+      `Your buy request for Property - ${requestDetailsRes[0]} was declined by the owner.`);
 
     window.location.reload();
   }
