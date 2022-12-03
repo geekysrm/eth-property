@@ -223,7 +223,6 @@ export default function PropertyProfile() {
         ) : (
           <Box mt={6} width="100%">
             <Button
-              width="100%"
               leftIcon={!loading && <AddIcon />}
               colorScheme="purple"
               variant="outline"

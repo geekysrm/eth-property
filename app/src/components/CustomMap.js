@@ -3,8 +3,9 @@ import ReactMapboxGl, { Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { useHistory } from "react-router-dom";
-
-import { PhoneIcon } from "@chakra-ui/icons";
+import MarkerIcon from "./icons/MarkerIcon";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -40,9 +41,16 @@ function renderMarkers(properties, history) {
 
 export default function CustomMap({ properties, zoomLat, zoomLng }) {
   const history = useHistory();
+  const [showMarker, setShowMarker] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowMarker(true);
+    }, 5500);
+  }, []);
 
   return (
-    <div style={{position: "relative"}} >
+    <div style={{ position: "relative" }}>
       <Map
         // eslint-disable-next-line react/style-prop-object
         style="mapbox://styles/mapbox/streets-v9"
@@ -57,7 +65,12 @@ export default function CustomMap({ properties, zoomLat, zoomLng }) {
       >
         {renderMarkers(properties, history)}
       </Map>
-      <PhoneIcon mr={2} style={{position: "absolute", top: "50%", right: "50%"}} />
+      {showMarker && properties.length && (
+        <MarkerIcon
+          mr={2}
+          style={{ position: "absolute", top: "50%", right: "50%" }}
+        />
+      )}
     </div>
   );
 }
