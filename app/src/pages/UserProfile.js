@@ -301,7 +301,7 @@ export default function UserProfile() {
             colorScheme="purple"
             variant="outline"
           >
-            Browse Other Properties
+            Browse All Properties
           </Button>
         </Box>
         <Heading size="lg" mt="10" mb="5">
