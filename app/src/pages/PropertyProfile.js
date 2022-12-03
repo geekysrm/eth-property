@@ -32,6 +32,7 @@ import createBuyOrder from "../ethereum/createBuyOrder";
 import AreaIcon from "../components/icons/AreaIcon";
 import UserIcon from "../components/icons/UserIcon";
 import HomeIcon from "../components/icons/HomeIcon";
+import { LinkIcon } from "@chakra-ui/icons";
 
 import pushNotification from "../pushNotification";
 
@@ -201,8 +202,12 @@ export default function PropertyProfile() {
             <p style={{ marginLeft: "2px" }}>{property.currentOwnerName}</p>
           </Flex>
           <Flex alignItems="center" fontSize="xl">
-            <Icon as={AreaIcon} mr={4} />
-            <UILink color="purple.500" href={property.propertyFileUrl}>
+            <Icon as={LinkIcon} mr={1.5} />
+            <UILink
+              isExternal
+              color="purple.500"
+              href={property.propertyFileUrl}
+            >
               {" "}
               Property File stored on IPFS{" "}
             </UILink>
