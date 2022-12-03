@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Hero from '../components/Hero';
-import Features from '../components/Features';
-import Tech from '../components/Tech';
-import Problems from '../components/Problems';
-import Footer from '../components/Footer';
-
 import isUserRegistered from "../ethereum/isUserRegistered";
 
-export default function Landing() {
+import RegisterForm from '../components/RegisterForm';
+
+export default function Register() {
   const history = useHistory();
 
   useEffect(() => {
@@ -37,11 +33,7 @@ export default function Landing() {
 
   return (
     <div>
-      <Hero />
-      <Tech />
-      <Problems />
-      <Features />
-      <Footer />
+      <RegisterForm />
     </div>
   );
 }
