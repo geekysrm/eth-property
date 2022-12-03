@@ -9,9 +9,8 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useViewportScroll } from "framer-motion";
-// import { FaHeart } from 'react-icons/fa';
-// import { AiFillGithub } from 'react-icons/ai';
 import { Link as RouterLink } from "react-router-dom";
+import GitHubIcon from "./icons/GitHubIcon";
 
 const Navbar = () => {
   const bg = useColorModeValue("white", "gray.800");
@@ -23,43 +22,6 @@ const Navbar = () => {
   React.useEffect(() => {
     return scrollY.onChange(() => setY(scrollY.get()));
   }, [scrollY]);
-
-  const SponsorButton = (
-    <Box
-      display={{ base: "none", md: "flex" }}
-      alignItems="center"
-      as="a"
-      aria-label="Vote for us"
-      href="https://link.soumya.dev/solana-vote"
-      target="_blank"
-      bg="gray.50"
-      borderWidth="1px"
-      borderColor="gray.200"
-      px="1em"
-      minH="36px"
-      rounded="md"
-      fontSize="sm"
-      color="gray.800"
-      outline="0"
-      transition="all 0.3s"
-      _hover={{
-        bg: "gray.100",
-        borderColor: "gray.300",
-      }}
-      _active={{
-        borderColor: "gray.200",
-      }}
-      _focus={{
-        boxShadow: "outline",
-      }}
-      ml={5}
-    >
-      {/* <Icon as={FaHeart} w="4" h="4" color="red.500" mr="2" /> */}
-      <Box as="strong" lineHeight="inherit" fontWeight="semibold">
-        Vote Us!
-      </Box>
-    </Box>
-  );
 
   return (
     <Box pos="relative">
@@ -87,33 +49,22 @@ const Navbar = () => {
               </Link>
             </Flex>
 
-            {/* <Flex alignItems="center">
+            <Flex alignItems="center">
               <Link
                 isExternal
                 aria-label="Go to Source"
-                href="https://github.com/geekysrm/propertymanager"
+                href="https://github.com/geekysrm/ethproperty"
               >
                 <Icon
-                  as={AiFillGithub}
+                  as={GitHubIcon}
                   display="block"
                   transition="color 0.2s"
                   w="5"
                   h="5"
-                  _hover={{ color: 'gray.600' }}
+                  _hover={{ color: "gray.600" }}
                 />
               </Link>
-              {SponsorButton}
-              <Box
-                ml="4"
-                display={{ base: 'flex', md: 'none' }}
-                as="a"
-                aria-label="Vote for us"
-                href="https://link.soumya.dev/solana-vote"
-                target="_blank"
-              >
-                <Icon as={FaHeart} w="4" h="4" color="red.500" mr="2" />
-              </Box>
-            </Flex> */}
+            </Flex>
           </Flex>
         </Flex>
       </chakra.header>

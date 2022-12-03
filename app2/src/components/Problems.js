@@ -7,8 +7,9 @@ import {
   Icon,
   Stack,
 } from "@chakra-ui/react";
-// import { BiError, RiFileDamageLine } from 'react-icons/all';
 import { SearchIcon } from "@chakra-ui/icons";
+import ErrorIcon from "./icons/ErrorIcon";
+import PageTearIcon from "./icons/PageTearIcon";
 
 export default function Problems() {
   const Feature = (props) => {
@@ -92,23 +93,23 @@ export default function Problems() {
                 property owner is at risk of losing his or her property.
               </Feature>
 
-              {/* <Feature
+              <Feature
                 title="Human error"
-                icon={<Icon w={6} h={6} as={BiError}></Icon>}
+                icon={<Icon w={6} h={6} as={ErrorIcon}></Icon>}
               >
                 During the property registration procedure, there is a lot of
                 human involvement. Eventually, this results in a huge number of
                 human errors.
-              </Feature> */}
+              </Feature>
 
-              {/* <Feature
+              <Feature
                 title="Wear and tear of documents"
-                icon={<Icon w={6} h={6} as={RiFileDamageLine}></Icon>}
+                icon={<Icon w={6} h={6} as={PageTearIcon}></Icon>}
               >
                 Printed property papers, as we all know, do not endure more than
                 a decade if not properly kept. Most traditional papers are
                 unrecognisable as a result of this wear and tear.
-              </Feature> */}
+              </Feature>
 
               <Feature
                 title="Traceability"
