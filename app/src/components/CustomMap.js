@@ -4,6 +4,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { useHistory } from "react-router-dom";
 
+import { PhoneIcon } from "@chakra-ui/icons";
+
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass =
@@ -40,19 +42,22 @@ export default function CustomMap({ properties, zoomLat, zoomLng }) {
   const history = useHistory();
 
   return (
-    <Map
-      // eslint-disable-next-line react/style-prop-object
-      style="mapbox://styles/mapbox/streets-v9"
-      containerStyle={{
-        height: "100vh",
-      }}
-      center={
-        properties.length > 0
-          ? [zoomLng || properties[0].lng, zoomLat || properties[0].lat]
-          : [85.824539, 20.296059]
-      }
-    >
-      {renderMarkers(properties, history)}
-    </Map>
+    <div style={{position: "relative"}} >
+      <Map
+        // eslint-disable-next-line react/style-prop-object
+        style="mapbox://styles/mapbox/streets-v9"
+        containerStyle={{
+          height: "100vh",
+        }}
+        center={
+          properties.length > 0
+            ? [zoomLng || properties[0].lng, zoomLat || properties[0].lat]
+            : [85.824539, 20.296059]
+        }
+      >
+        {renderMarkers(properties, history)}
+      </Map>
+      <PhoneIcon mr={2} style={{position: "absolute", top: "50%", right: "50%"}} />
+    </div>
   );
 }

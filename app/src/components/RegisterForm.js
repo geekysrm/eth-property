@@ -11,6 +11,7 @@ import {
   FormLabel,
   Input,
   Button,
+  Spinner,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
@@ -20,6 +21,7 @@ export default function Component() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNo, setMobileNo] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -28,7 +30,9 @@ export default function Component() {
 
     if (typeof window.ethereum !== "undefined") { 
 
-      const { ethereum } = window;
+        setLoading(true);
+
+        const { ethereum } = window;
         const accounts = await ethereum.request({method: 'eth_requestAccounts'});
 
         console.log(accounts);
@@ -39,6 +43,7 @@ export default function Component() {
 
           await registerUser(name, email, mobileNo);
 
+          setLoading(false);
           console.log("done");
 
           history.push(`/user/${userAddress}`);
@@ -149,8 +154,9 @@ export default function Component() {
                     gridColumnStart={6}
                     type="submit"
                     colorScheme="purple"
+                    width={40}
                   >
-                    Register
+                    {loading ? <Spinner></Spinner> : <p>Register</p>}
                   </Button>
                 </SimpleGrid>
               </Stack>

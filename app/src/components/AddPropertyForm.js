@@ -34,12 +34,17 @@ export default function AddPropertyForm() {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const [fileIPFSUrl, setFileIPFSUrl] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (typeof window.ethereum !== "undefined") {
+
+      setLoading(true);
+
       const { ethereum } = window;
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -65,6 +70,7 @@ export default function AddPropertyForm() {
           fileIPFSUrl
         );
 
+        setLoading(false);
         console.log("done");
 
         history.push(`/user/${userAddress}`);
@@ -314,8 +320,9 @@ export default function AddPropertyForm() {
                     gridColumnStart={6}
                     type="submit"
                     colorScheme="purple"
+                    width={40}
                   >
-                    Add Property
+                    {loading ? <Spinner></Spinner> : <p>Add Property</p>}
                   </Button>
                 </SimpleGrid>
               </Stack>

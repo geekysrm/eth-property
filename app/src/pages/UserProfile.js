@@ -14,6 +14,7 @@ import {
   AccordionButton,
   AccordionPanel,
   Icon,
+  Spinner,
 } from "@chakra-ui/react";
 import { PhoneIcon, EmailIcon, AddIcon } from "@chakra-ui/icons";
 
@@ -43,6 +44,8 @@ export default function UserProfile() {
     lng: null,
   });
   const [requests, setRequests] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -174,8 +177,11 @@ export default function UserProfile() {
   }
 
   async function approveBuyRequest(buyRequestId) {
+    setLoading(true);
+
     await approveBuyOrder(buyRequestId);
 
+    setLoading(false);
     console.log("done");
 
     const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
@@ -195,8 +201,11 @@ export default function UserProfile() {
   }
 
   async function rejectBuyRequest(buyRequestId) {
+    setLoading(true);
+
     await rejectBuyOrder(buyRequestId);
 
+    setLoading(false);
     console.log("done");
 
     const requestDetailsRes = await fetchBuyRequestDetails(buyRequestId);
@@ -329,30 +338,33 @@ export default function UserProfile() {
                     <p style={{ marginLeft: "2px" }}>{req.buyerName}</p>
                   </Flex>
                   <Box width="100%" display="flex">
-                    <Button
-                      mt="5"
-                      ml="2"
-                      variant="outline"
-                      colorScheme="green"
-                      width="100%"
-                      onClick={() => {
-                        approveBuyRequest(req.orderId);
-                      }}
-                    >
-                      Approve
-                    </Button>
-                    <Button
-                      mt="5"
-                      ml="2"
-                      variant="outline"
-                      colorScheme="red"
-                      width="100%"
-                      onClick={() => {
-                        rejectBuyRequest(req.orderId);
-                      }}
-                    >
-                      Reject
-                    </Button>
+                  {loading ? <Box display="flex" justifyContent="center" ><Spinner></Spinner></Box> :
+                    <>
+                      <Button
+                        mt="5"
+                        ml="2"
+                        variant="outline"
+                        colorScheme="green"
+                        width="100%"
+                        onClick={() => {
+                          approveBuyRequest(req.orderId);
+                        }}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        mt="5"
+                        ml="2"
+                        variant="outline"
+                        colorScheme="red"
+                        width="100%"
+                        onClick={() => {
+                          rejectBuyRequest(req.orderId);
+                        }}
+                      >
+                        Reject
+                      </Button>
+                    </>}
                   </Box>
                 </AccordionPanel>
               </AccordionItem>

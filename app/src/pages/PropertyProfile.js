@@ -15,6 +15,7 @@ import {
   FormControl,
   FormLabel,
   Link as UILink,
+  Spinner,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from "@chakra-ui/icons";
 import { v4 as uuid } from "uuid";
@@ -42,6 +43,8 @@ export default function PropertyProfile() {
   const [property, setProperty] = useState({});
   const [buyerAddress, setBuyerAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -116,8 +119,11 @@ export default function PropertyProfile() {
   }
 
   async function onTransferProperty() {
+    setLoading(true);
+
     await transferProperty(id, buyerAddress);
 
+    setLoading(false);
     console.log("done");
 
     pushNotification(
@@ -138,8 +144,11 @@ export default function PropertyProfile() {
   }
 
   async function buyRequest() {
+    setLoading(true);
+
     await createBuyOrder(uuid(), id);
 
+    setLoading(false);
     console.log("done");
 
     pushNotification(
@@ -215,12 +224,13 @@ export default function PropertyProfile() {
           <Box mt={6} width="100%">
             <Button
               width="100%"
-              leftIcon={<AddIcon />}
+              leftIcon={!loading && <AddIcon />}
               colorScheme="purple"
               variant="outline"
               onClick={buyRequest}
+              width="100%"
             >
-              Buy Request
+              {loading ? <Spinner></Spinner> : <p>Buy Request</p>}
             </Button>
           </Box>
         )}
@@ -262,8 +272,9 @@ export default function PropertyProfile() {
             mt="5"
             ml="auto"
             onClick={onTransferProperty}
+            width={60}
           >
-            Transfer
+            {loading ? <Spinner></Spinner> : <p>Transfer</p>}
           </Button>
         </Flex>
       </CustomModal>
