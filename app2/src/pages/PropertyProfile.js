@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink as Link, useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { NavLink as Link, useParams, useHistory } from "react-router-dom";
 import {
   Flex,
   Box,
@@ -14,15 +14,18 @@ import {
   Input,
   FormControl,
   FormLabel,
-} from '@chakra-ui/react';
-import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from '@chakra-ui/icons';
-import { v4 as uuid } from 'uuid';
+} from "@chakra-ui/react";
+import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from "@chakra-ui/icons";
+import { v4 as uuid } from "uuid";
 
-import CustomMap from '../components/CustomMap';
+import CustomMap from "../components/CustomMap";
 
 import isUserRegistered from "../ethereum/isUserRegistered";
 import fetchPropertyDetails from "../ethereum/fetchPropertyDetails";
 import fetchUserDetails from "../ethereum/fetchUserDetails";
+import AreaIcon from "../components/icons/AreaIcon";
+import UserIcon from "../components/icons/UserIcon";
+import HomeIcon from "../components/icons/HomeIcon";
 
 export default function PropertyProfile() {
   const history = useHistory();
@@ -31,17 +34,17 @@ export default function PropertyProfile() {
   const [userAddress, setUserAddress] = useState(null);
   const [property, setProperty] = useState({});
 
-
   useEffect(() => {
     (async () => {
-
-      if (typeof window.ethereum !== "undefined") { 
+      if (typeof window.ethereum !== "undefined") {
         const { ethereum } = window;
-        const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
 
         console.log(accounts);
 
-        if(accounts !== 0){
+        if (accounts !== 0) {
           const userAdd = accounts[0];
           console.log(userAdd);
 
@@ -50,25 +53,28 @@ export default function PropertyProfile() {
           const response = await isUserRegistered(userAdd);
           console.log(response);
 
-          if(!response) {
+          if (!response) {
             history.push(`/`);
           } else {
-
             console.log(id);
 
             const propertyDetailsRes = await fetchPropertyDetails(id);
 
             console.log(propertyDetailsRes);
 
-            const ownerDetailsRes = await fetchUserDetails(propertyDetailsRes[6]);
+            const ownerDetailsRes = await fetchUserDetails(
+              propertyDetailsRes[6]
+            );
 
             const pastOwnerAddresses = propertyDetailsRes[7];
 
-            const pastOwnerNames = await Promise.all(pastOwnerAddresses.map(async add => {
-              const ownerDetailsRes = await fetchUserDetails(add);
+            const pastOwnerNames = await Promise.all(
+              pastOwnerAddresses.map(async (add) => {
+                const ownerDetailsRes = await fetchUserDetails(add);
 
-              return ownerDetailsRes[0];
-            }));
+                return ownerDetailsRes[0];
+              })
+            );
 
             const propertyDetails = {
               id: id,
@@ -81,7 +87,7 @@ export default function PropertyProfile() {
               currentOwnerAddress: propertyDetailsRes[6].toLowerCase(),
               currentOwnerName: ownerDetailsRes[0],
               pastOwnerAddresses: pastOwnerAddresses,
-              pastOwnerNames: pastOwnerNames
+              pastOwnerNames: pastOwnerNames,
             };
 
             console.log(propertyDetails);
@@ -94,12 +100,8 @@ export default function PropertyProfile() {
   }, []);
 
   function renderPastOwners(pastOwnerNames) {
-    return pastOwnerNames.map(ownerName => {
-      return (
-        <ListItem key={ownerName}>
-          {ownerName}
-        </ListItem>
-      );
+    return pastOwnerNames.map((ownerName) => {
+      return <ListItem key={ownerName}>{ownerName}</ListItem>;
     });
   }
 
@@ -122,9 +124,9 @@ export default function PropertyProfile() {
   return (
     <Flex
       style={{
-        marginTop: '20px',
-        marginBottom: '40px',
-        overflowX: 'hidden',
+        marginTop: "20px",
+        marginBottom: "40px",
+        overflowX: "hidden",
       }}
     >
       <Box width="30%" p={4} m={4} my={0} borderWidth="1px" borderRadius="lg">
@@ -134,22 +136,22 @@ export default function PropertyProfile() {
         <Text color="gray.500">{id}</Text>
         <Stack spacing={3} mt={6}>
           <Text fontSize="xl">
-            {/* <Icon as={AiOutlineHome} mr={2} /> */}
+            <Icon as={HomeIcon} mr={2} />
             {property.address}
           </Text>
           <Text fontSize="xl">
-            {/* <Icon as={BiArea} mr={2} /> */}
+            <Icon as={UserIcon} mr={2} />
             {property.dimensions}
           </Text>
-            <Text
-              color="purple.300"
-              fontSize="xl"
-              as={Link}
-              to={`/user/${property.currentOwnerAddress}`}
-            >
-              {/* <Icon as={AiOutlineUser} mr={2} /> */}
-              {property.currentOwnerName}
-            </Text>
+          <Text
+            color="purple.300"
+            fontSize="xl"
+            as={Link}
+            to={`/user/${property.currentOwnerAddress}`}
+          >
+            <Icon as={UserIcon} mr={2} />
+            {property.currentOwnerName}
+          </Text>
         </Stack>
         {userAddress && userAddress !== property.currentOwnerAddress && (
           <Box mt={6} width="100%">
@@ -173,7 +175,9 @@ export default function PropertyProfile() {
                 <RepeatClockIcon mr={2} />
                 Past Owners
               </Text>
-              <UnorderedList>{renderPastOwners(property.pastOwnerNames)}</UnorderedList>
+              <UnorderedList>
+                {renderPastOwners(property.pastOwnerNames)}
+              </UnorderedList>
             </>
           )}
       </Box>
