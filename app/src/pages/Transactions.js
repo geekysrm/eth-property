@@ -57,17 +57,16 @@ const Transactions = () => {
   }, []);
 
   return (
-    <Container height={"100%"} width={"2000px"}>
+    <Container
+      style={{ justifyContent: "center", alignItems: "center" }}
+      display="flex"
+      height={"70vh"}
+      width={"2000px"}
+    >
       {notifications.length === 0 ? (
         <Spinner></Spinner>
       ) : (
         <Flex alignItems="center" flexDirection="column">
-          {/* <Heading>Your Transactions</Heading>
-          <div>
-            <div>Notif 1</div>
-            <div>Notif 1</div>
-            <div>Notif 1</div>
-          </div> */}
           <Card>
             <CardHeader>
               <Center>

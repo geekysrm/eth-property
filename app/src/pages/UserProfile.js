@@ -262,6 +262,17 @@ export default function UserProfile() {
             </Button>
           </Box>
         )}
+        <Box mt={6} width="100%">
+          <Button
+            as={Link}
+            to="/transactions"
+            width="100%"
+            colorScheme="purple"
+            variant="outline"
+          >
+            All Transactions
+          </Button>
+        </Box>
         <Heading size="lg" mt="10" mb="5">
           Your Properties:
         </Heading>
@@ -338,33 +349,38 @@ export default function UserProfile() {
                     <p style={{ marginLeft: "2px" }}>{req.buyerName}</p>
                   </Flex>
                   <Box width="100%" display="flex">
-                  {loading ? <Box display="flex" justifyContent="center" ><Spinner></Spinner></Box> :
-                    <>
-                      <Button
-                        mt="5"
-                        ml="2"
-                        variant="outline"
-                        colorScheme="green"
-                        width="100%"
-                        onClick={() => {
-                          approveBuyRequest(req.orderId);
-                        }}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        mt="5"
-                        ml="2"
-                        variant="outline"
-                        colorScheme="red"
-                        width="100%"
-                        onClick={() => {
-                          rejectBuyRequest(req.orderId);
-                        }}
-                      >
-                        Reject
-                      </Button>
-                    </>}
+                    {loading ? (
+                      <Box display="flex" justifyContent="center">
+                        <Spinner></Spinner>
+                      </Box>
+                    ) : (
+                      <>
+                        <Button
+                          mt="5"
+                          ml="2"
+                          variant="outline"
+                          colorScheme="green"
+                          width="100%"
+                          onClick={() => {
+                            approveBuyRequest(req.orderId);
+                          }}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          mt="5"
+                          ml="2"
+                          variant="outline"
+                          colorScheme="red"
+                          width="100%"
+                          onClick={() => {
+                            rejectBuyRequest(req.orderId);
+                          }}
+                        >
+                          Reject
+                        </Button>
+                      </>
+                    )}
                   </Box>
                 </AccordionPanel>
               </AccordionItem>
