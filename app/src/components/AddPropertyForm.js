@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   chakra,
   Box,
@@ -13,19 +13,19 @@ import {
   Input,
   Button,
   Link,
-  Spinner
-} from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+  Spinner,
+} from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import addProperty from "../ethereum/addProperty";
 
 import uploadFile from "../ipfsFileUpload";
 
 export default function AddPropertyForm() {
-  const [propertyName, setPropertyName] = useState('');
-  const [propertyAddress, setPropertyAddress] = useState('');
-  const [zip, setZip] = useState('');
+  const [propertyName, setPropertyName] = useState("");
+  const [propertyAddress, setPropertyAddress] = useState("");
+  const [zip, setZip] = useState("");
   const [propertyDimensions1, setPropertyDimensions1] = useState(null);
   const [propertyDimensions2, setPropertyDimensions2] = useState(null);
   const [latitude, setLatitude] = useState(null);
@@ -39,45 +39,46 @@ export default function AddPropertyForm() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (typeof window.ethereum !== "undefined") { 
-
+    if (typeof window.ethereum !== "undefined") {
       const { ethereum } = window;
-        const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
 
-        console.log(accounts);
+      console.log(accounts);
 
-        if(accounts !== 0){
-          const userAddress = accounts[0];
-          console.log(userAddress);
+      if (accounts !== 0) {
+        const userAddress = accounts[0];
+        console.log(userAddress);
 
-          const dimensions =
-            `${propertyDimensions1}X${propertyDimensions2}`.toString();
+        const dimensions =
+          `${propertyDimensions1}X${propertyDimensions2}`.toString();
 
-          await addProperty(
-            uuidv4(),
-            propertyName,
-            propertyAddress,
-            dimensions,
-            zip,
-            latitude,
-            longitude,
-            fileIPFSUrl
-          );
+        await addProperty(
+          uuidv4(),
+          propertyName,
+          propertyAddress,
+          dimensions,
+          zip,
+          latitude,
+          longitude,
+          ""
+        );
 
-          console.log("done");
+        console.log("done");
 
-          history.push(`/user/${userAddress}`);
-        }
+        history.push(`/user/${userAddress}`);
+      }
     }
   }
 
   return (
-    <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
+    <Box bg={useColorModeValue("gray.50", "inherit")} p={10}>
       <Flex mt={[10, 0]} w="full" justifyContent="center">
         <Flex
           justifyContent="center"
           w="full"
-          display={{ base: 'initial', md: 'grid' }}
+          display={{ base: "initial", md: "grid" }}
           columns={{ md: 3 }}
           spacing={{ md: 6 }}
         >
@@ -85,14 +86,14 @@ export default function AddPropertyForm() {
             <chakra.form
               onSubmit={handleSubmit}
               shadow="base"
-              rounded={[null, 'md']}
-              overflow={{ sm: 'hidden' }}
+              rounded={[null, "md"]}
+              overflow={{ sm: "hidden" }}
             >
               <Stack
                 px={4}
                 py={5}
                 p={[null, 6]}
-                bg={useColorModeValue('white', 'gray.700')}
+                bg={useColorModeValue("white", "gray.700")}
                 spacing={6}
               >
                 <SimpleGrid columns={6} spacing={6}>
@@ -101,7 +102,7 @@ export default function AddPropertyForm() {
                       htmlFor="name"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color={useColorModeValue("gray.700", "gray.50")}
                     >
                       Property Name
                     </FormLabel>
@@ -117,7 +118,7 @@ export default function AddPropertyForm() {
                       w="full"
                       rounded="md"
                       value={propertyName}
-                      onChange={e => setPropertyName(e.target.value)}
+                      onChange={(e) => setPropertyName(e.target.value)}
                       required
                     />
                   </FormControl>
@@ -127,7 +128,7 @@ export default function AddPropertyForm() {
                       htmlFor="address"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color={useColorModeValue("gray.700", "gray.50")}
                     >
                       Property Address
                     </FormLabel>
@@ -144,7 +145,7 @@ export default function AddPropertyForm() {
                       w="full"
                       rounded="md"
                       value={propertyAddress}
-                      onChange={e => setPropertyAddress(e.target.value)}
+                      onChange={(e) => setPropertyAddress(e.target.value)}
                       required
                     />
                   </FormControl>
@@ -154,7 +155,7 @@ export default function AddPropertyForm() {
                       htmlFor="zip"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color={useColorModeValue("gray.700", "gray.50")}
                     >
                       ZipCode
                     </FormLabel>
@@ -170,7 +171,7 @@ export default function AddPropertyForm() {
                       w="full"
                       rounded="md"
                       value={zip}
-                      onChange={e => setZip(e.target.value)}
+                      onChange={(e) => setZip(e.target.value)}
                       required
                     />
                   </FormControl>
@@ -180,7 +181,7 @@ export default function AddPropertyForm() {
                       htmlFor="dimensions"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color={useColorModeValue("gray.700", "gray.50")}
                     >
                       Property Dimensions
                     </FormLabel>
@@ -196,7 +197,7 @@ export default function AddPropertyForm() {
                       w="40%"
                       rounded="md"
                       value={propertyDimensions1}
-                      onChange={e => setPropertyDimensions1(e.target.value)}
+                      onChange={(e) => setPropertyDimensions1(e.target.value)}
                       required
                     />
                     <b>X</b>
@@ -212,28 +213,32 @@ export default function AddPropertyForm() {
                       w="40%"
                       rounded="md"
                       value={propertyDimensions2}
-                      onChange={e => setPropertyDimensions2(e.target.value)}
+                      onChange={(e) => setPropertyDimensions2(e.target.value)}
                       required
                     />
                   </FormControl>
 
                   {/* To add dropdown for popular land measuring units */}
 
-                  <FormControl as={GridItem} colSpan={[6, 6]}>
-                      <FormLabel
-                        htmlFor="dimensions"
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                      >
-                        Property File
-                      </FormLabel>
+                  {/* <FormControl as={GridItem} colSpan={[6, 6]}>
+                    <FormLabel
+                      htmlFor="dimensions"
+                      fontSize="sm"
+                      fontWeight="md"
+                      color={useColorModeValue("gray.700", "gray.50")}
+                    >
+                      Property File
+                    </FormLabel> */}
 
-                      {fileIPFSUrl ? 
-                        <Link color="purple.500" href={fileIPFSUrl} > Property File stored on IPFS </Link> 
-                        : 
-                        fileUploadLoading ? <Spinner /> : 
-                        <Input
+                  {/* {fileIPFSUrl ? (
+                      <Link color="purple.500" href={fileIPFSUrl}>
+                        {" "}
+                        Property File stored on IPFS{" "}
+                      </Link>
+                    ) : fileUploadLoading ? (
+                      <Spinner />
+                    ) : (
+                      <Input
                         type="file"
                         name="file"
                         id="file"
@@ -242,8 +247,7 @@ export default function AddPropertyForm() {
                         shadow="sm"
                         size="sm"
                         rounded="md"
-                        onChange={async e => {
-
+                        onChange={async (e) => {
                           setFileUploadLoading(true);
 
                           const fileUrl = await uploadFile(e);
@@ -252,15 +256,16 @@ export default function AddPropertyForm() {
                           setFileIPFSUrl(fileUrl);
                         }}
                         required
-                      />}
-                  </FormControl>
+                      />
+                    )}
+                  </FormControl> */}
 
                   <FormControl display="flex" as={GridItem} colSpan={[6, 6]}>
                     <Box mr="5" w="40%">
                       <Text
                         fontSize="sm"
                         fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
+                        color={useColorModeValue("gray.700", "gray.50")}
                       >
                         Latitude
                       </Text>
@@ -274,7 +279,7 @@ export default function AddPropertyForm() {
                         size="sm"
                         rounded="md"
                         value={latitude}
-                        onChange={e => setLatitude(e.target.value)}
+                        onChange={(e) => setLatitude(e.target.value)}
                         required
                       />
                     </Box>
@@ -283,7 +288,7 @@ export default function AddPropertyForm() {
                       <Text
                         fontSize="sm"
                         fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
+                        color={useColorModeValue("gray.700", "gray.50")}
                       >
                         Longitude
                       </Text>
@@ -298,7 +303,7 @@ export default function AddPropertyForm() {
                         size="sm"
                         rounded="md"
                         value={longitude}
-                        onChange={e => setLongitude(e.target.value)}
+                        onChange={(e) => setLongitude(e.target.value)}
                         required
                       />
                     </Box>
