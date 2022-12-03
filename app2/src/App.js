@@ -1,14 +1,14 @@
-import './App.css';
-import React from 'react';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import "./App.css";
+import React from "react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Landing from './pages/Landing';
-import Navbar from './components/Navbar';
+import Landing from "./pages/Landing";
+import Navbar from "./components/Navbar";
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'dark',
+    initialColorMode: "dark",
     useSystemColorMode: false,
   },
 });
