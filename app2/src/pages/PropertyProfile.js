@@ -19,10 +19,13 @@ import { ExternalLinkIcon, AddIcon, RepeatClockIcon } from "@chakra-ui/icons";
 import { v4 as uuid } from "uuid";
 
 import CustomMap from "../components/CustomMap";
+import CustomModal from '../components/Modal';
 
 import isUserRegistered from "../ethereum/isUserRegistered";
 import fetchPropertyDetails from "../ethereum/fetchPropertyDetails";
 import fetchUserDetails from "../ethereum/fetchUserDetails";
+import transferProperty from "../ethereum/transferProperty";
+
 import AreaIcon from "../components/icons/AreaIcon";
 import UserIcon from "../components/icons/UserIcon";
 import HomeIcon from "../components/icons/HomeIcon";
@@ -33,6 +36,8 @@ export default function PropertyProfile() {
 
   const [userAddress, setUserAddress] = useState(null);
   const [property, setProperty] = useState({});
+  const [buyerAddress, setBuyerAddress] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -105,6 +110,18 @@ export default function PropertyProfile() {
     });
   }
 
+  async function onTransferProperty() {
+    
+    await transferProperty(id, buyerAddress);
+
+    console.log("done");
+
+    setIsModalOpen(false);
+    setBuyerAddress(null);
+
+    window.location.reload();
+  }
+
   // async function buyRequest() {
   //   const program = await getProgram(wallet);
   //   const pair = getPair();
@@ -137,7 +154,7 @@ export default function PropertyProfile() {
         <Stack spacing={3} mt={6}>
           <Text fontSize="xl">
             <Icon as={HomeIcon} mr={2} />
-            {property.address}
+            {property.propertyAddress}
           </Text>
           <Text fontSize="xl">
             <Icon as={UserIcon} mr={2} />
@@ -153,7 +170,19 @@ export default function PropertyProfile() {
             {property.currentOwnerName}
           </Text>
         </Stack>
-        {userAddress && userAddress !== property.currentOwnerAddress && (
+        {userAddress && userAddress === property.currentOwnerAddress ? (
+          <Box mt={6} width="100%">
+            <Button
+              width="100%"
+              leftIcon={<ExternalLinkIcon />}
+              colorScheme="purple"
+              variant="outline"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Transfer Property
+            </Button>
+          </Box>
+        ) : (
           <Box mt={6} width="100%">
             <Button
               width="100%"
@@ -186,6 +215,29 @@ export default function PropertyProfile() {
           <CustomMap properties={[property]} />
         )}
       </Box>
+      <CustomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Flex direction="column">
+          <FormControl>
+            <FormLabel>Transfer To Address</FormLabel>
+            <Input
+              mt="2"
+              type="text"
+              placeholder="Enter address"
+              onChange={e => setBuyerAddress(e.target.value)}
+              value={buyerAddress}
+            />
+          </FormControl>
+          <Button
+            type="button"
+            bg="purple.500"
+            mt="5"
+            ml="auto"
+            onClick={onTransferProperty}
+          >
+            Transfer
+          </Button>
+        </Flex>
+      </CustomModal>
     </Flex>
   );
 }
