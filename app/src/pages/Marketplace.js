@@ -71,9 +71,11 @@ export default function Marketplace() {
               })
             );
 
-            console.log(propertyDetails);
+            const filteredpropertyDetails = propertyDetails.filter(p => p.lat<90 && p.lng<90);
 
-            setProperties(propertyDetails);
+            console.log(filteredpropertyDetails);
+
+            setProperties(filteredpropertyDetails);
           }
         }
       }

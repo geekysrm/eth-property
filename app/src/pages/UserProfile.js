@@ -102,9 +102,11 @@ export default function UserProfile() {
               })
             );
 
-            console.log(propertyDetails);
+            const filteredpropertyDetails = propertyDetails.filter(p => p.lat<90 && p.lng<90);
 
-            setProperties(propertyDetails);
+            console.log(filteredpropertyDetails);
+
+            setProperties(filteredpropertyDetails);
 
             const requestIds = userDetailsRes[4];
 
