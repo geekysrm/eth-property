@@ -59,8 +59,8 @@ export default function CustomMap({ properties, zoomLat, zoomLng }) {
         }}
         center={
           properties.length > 0
-            ? [77.69741899999997, 12.9591722]
-            : [85.824539, 20.296059]
+            ? [zoomLng || properties[0].lng, zoomLat || properties[0].lat]
+            : [77.7176085, 12.9794514]
         }
       >
         {renderMarkers(properties, history)}
