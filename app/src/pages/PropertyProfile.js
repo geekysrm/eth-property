@@ -104,11 +104,9 @@ export default function PropertyProfile() {
               propertyFileUrl: propertyDetailsRes[8],
             };
 
-            const filteredpropertyDetails = propertyDetails.filter(p => p.lat<90 && p.lng<90);
+            console.log(propertyDetails);
 
-            console.log(filteredpropertyDetails);
-
-            setProperty(filteredpropertyDetails);
+            setProperty(propertyDetails);
           }
         }
       }
