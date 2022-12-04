@@ -189,7 +189,7 @@ export default function PropertyProfile() {
           </Flex>
           <Flex alignItems="center" fontSize="xl">
             <Icon as={AreaIcon} mr={4} />
-            <p style={{ marginLeft: "2px" }}>{property.dimensions}</p>
+            <p style={{ marginLeft: "2px" }}>{property.dimensions} sqft.</p>
           </Flex>
           <Flex
             color="purple.300"

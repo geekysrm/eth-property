@@ -136,7 +136,9 @@ export default function Marketplace() {
                   </Flex>
                   <Flex fontSize="lg" alignItems="center">
                     <Icon mr="2" as={AreaIcon}></Icon>
-                    <p style={{ marginLeft: "2px" }}>{property.dimensions}</p>
+                    <p style={{ marginLeft: "2px" }}>
+                      {property.dimensions} sqft.
+                    </p>
                   </Flex>
                   <Button
                     size="sm"

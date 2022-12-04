@@ -42,7 +42,6 @@ export default function AddPropertyForm() {
     e.preventDefault();
 
     if (typeof window.ethereum !== "undefined") {
-
       setLoading(true);
 
       const { ethereum } = window;
@@ -189,7 +188,7 @@ export default function AddPropertyForm() {
                       fontWeight="md"
                       color={useColorModeValue("gray.700", "gray.50")}
                     >
-                      Property Dimensions
+                      Property Dimensions (sqft.)
                     </FormLabel>
                     <Input
                       mr="4"
@@ -236,7 +235,7 @@ export default function AddPropertyForm() {
                       Property File
                     </FormLabel>
 
-                  {fileIPFSUrl ? (
+                    {fileIPFSUrl ? (
                       <Link color="purple.500" href={fileIPFSUrl}>
                         {" "}
                         Property File stored on IPFS{" "}
