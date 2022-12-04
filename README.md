@@ -24,10 +24,6 @@ Do update the Smart Contract address which is generated upon deployment in ``con
 
 Smart Contract Address on Goerli testnet - ``0xF576edCEE24FD1e0795Fb35339bA0A3E3FEFE5bA`` - https://goerli.etherscan.io/address/0xF576edCEE24FD1e0795Fb35339bA0A3E3FEFE5bA
 
-DApp URL - https://ethproperty.vercel.app/
-
-Demo video - 
+Demo video - https://youtu.be/6n2w8zc0klA
 
 PPT - https://docs.google.com/presentation/d/1HLD5MIRMbz7iBclecPIp5NMKYTxnBgKe9kByvUZZQFs/edit?usp=sharing
-
-Project on Devfolio - 
