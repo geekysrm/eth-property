@@ -7,7 +7,7 @@ import {
   useColorModeValue,
   Box,
   Image,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { useViewportScroll } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
@@ -44,21 +44,25 @@ const Navbar = () => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Flex align="center">
+            <Flex align="center" mt="7px">
               <Link as={RouterLink} to="/" _focus={false}>
-                <Flex alignItems="center">
-                <Image width={50} src="/images/solproperty-logo.png" m={5} />
-                <Text fontSize={{ base: '3xl', sm: '4xl' }} >ETH Property</Text>
-                </Flex>
+                <Image w="50%" src="/images/ethproperty-logo.png" />
               </Link>
             </Flex>
-
-            <Flex alignItems="center">
-              <Link
-                isExternal
-                aria-label="Go to Source"
-                href="https://github.com/geekysrm/ethproperty"
+            <Link
+              isExternal
+              aria-label="Go to Source"
+              href="https://github.com/geekysrm/ethproperty"
+            >
+              <Flex
+                alignItems="center"
+                borderRadius={"4px"}
+                gap={2}
+                border="1px"
+                padding="8px 11px"
               >
+                <Text style={{ fontWeight: "bold" }}>Go to Source</Text>
+
                 <Icon
                   as={GitHubIcon}
                   display="block"
@@ -67,8 +71,8 @@ const Navbar = () => {
                   h="5"
                   _hover={{ color: "gray.600" }}
                 />
-              </Link>
-            </Flex>
+              </Flex>
+            </Link>
           </Flex>
         </Flex>
       </chakra.header>
